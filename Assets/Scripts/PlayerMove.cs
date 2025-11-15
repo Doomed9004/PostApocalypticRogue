@@ -13,7 +13,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
-        reader = Reader.Ins;
+        reader = FindObjectOfType<Reader>();
         cc = GetComponent<CharacterController>();
     }
 

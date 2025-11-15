@@ -28,10 +28,16 @@ public class Reader : MonoBehaviour
     }
     private void OnDisable()
     {
-        inputAction.Disable();
+        inputAction?.Disable();
+    }
+
+    private void OnDestroy()
+    {
+        inputAction?.Disable();
     }
 
     public Vector2 InputDir => inputAction.Gameplay.Move.ReadValue<Vector2>();
     public bool Aim => inputAction.Gameplay.Aim.IsPressed();
     public bool Shoot => inputAction.Gameplay.Shoot.IsPressed();
+    public bool Interactive => inputAction.Gameplay.Interactive.WasReleasedThisFrame();
 }
