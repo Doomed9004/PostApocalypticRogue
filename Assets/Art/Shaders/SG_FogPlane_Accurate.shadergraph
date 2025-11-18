@@ -401,6 +401,7 @@
     "m_OutputNode": {
         "m_Id": ""
     },
+    "m_SubDatas": [],
     "m_ActiveTargets": [
         {
             "m_Id": "bdcd746a04f243058e6c7d0df3dc9e94"
@@ -668,7 +669,7 @@
     "m_ObjectId": "16fbfa12800d41a7bbe5051a999b52d3",
     "m_Title": "Object Depth",
     "m_Position": {
-        "x": -1867.0,
+        "x": -1911.0,
         "y": 374.0
     }
 }
@@ -680,7 +681,7 @@
     "m_Title": "Handle Fog(based on Normal Direction)",
     "m_Position": {
         "x": -624.0,
-        "y": 206.99996948242188
+        "y": 207.0000457763672
     }
 }
 
@@ -954,8 +955,8 @@
     "m_ObjectId": "3c1804164a9a4429ac673cefd80ca367",
     "m_Title": "Calculate World Pos from Depth",
     "m_Position": {
-        "x": 10.0,
-        "y": 10.0
+        "x": -1413.0,
+        "y": 211.00001525878907
     }
 }
 
@@ -2359,8 +2360,6 @@
     "m_AlphaClip": false,
     "m_CastShadows": false,
     "m_ReceiveShadows": true,
-    "m_AdditionalMotionVectorMode": 0,
-    "m_AlembicMotionVectors": false,
     "m_SupportsLODCrossFade": false,
     "m_CustomEditorGUI": "",
     "m_SupportVFX": false
@@ -2385,7 +2384,7 @@
     "m_Title": "Scene Depth",
     "m_Position": {
         "x": -1674.0,
-        "y": 150.0
+        "y": 150.0000457763672
     }
 }
 

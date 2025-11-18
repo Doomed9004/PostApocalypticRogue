@@ -127,6 +127,15 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AimPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""882a0350-1a38-4b50-a9d8-1bd12ff6441d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -217,6 +226,17 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Interactive"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2f380341-9bf1-419e-b957-3f7856c34ad7"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";K&M"",
+                    ""action"": ""AimPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -285,6 +305,7 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
         m_Gameplay_Aim = m_Gameplay.FindAction("Aim", throwIfNotFound: true);
         m_Gameplay_Shoot = m_Gameplay.FindAction("Shoot", throwIfNotFound: true);
         m_Gameplay_Interactive = m_Gameplay.FindAction("Interactive", throwIfNotFound: true);
+        m_Gameplay_AimPosition = m_Gameplay.FindAction("AimPosition", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -373,6 +394,7 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Aim;
     private readonly InputAction m_Gameplay_Shoot;
     private readonly InputAction m_Gameplay_Interactive;
+    private readonly InputAction m_Gameplay_AimPosition;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -400,6 +422,10 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Interactive".
         /// </summary>
         public InputAction @Interactive => m_Wrapper.m_Gameplay_Interactive;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/AimPosition".
+        /// </summary>
+        public InputAction @AimPosition => m_Wrapper.m_Gameplay_AimPosition;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -438,6 +464,9 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
             @Interactive.started += instance.OnInteractive;
             @Interactive.performed += instance.OnInteractive;
             @Interactive.canceled += instance.OnInteractive;
+            @AimPosition.started += instance.OnAimPosition;
+            @AimPosition.performed += instance.OnAimPosition;
+            @AimPosition.canceled += instance.OnAimPosition;
         }
 
         /// <summary>
@@ -461,6 +490,9 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
             @Interactive.started -= instance.OnInteractive;
             @Interactive.performed -= instance.OnInteractive;
             @Interactive.canceled -= instance.OnInteractive;
+            @AimPosition.started -= instance.OnAimPosition;
+            @AimPosition.performed -= instance.OnAimPosition;
+            @AimPosition.canceled -= instance.OnAimPosition;
         }
 
         /// <summary>
@@ -651,6 +683,13 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteractive(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "AimPosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAimPosition(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
