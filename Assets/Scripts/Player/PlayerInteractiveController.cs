@@ -11,7 +11,7 @@ public class PlayerInteractiveController : MonoBehaviour
 
     private Reader reader;
     
-    [SerializeField]Collider[] colliders=new Collider[10];
+    Collider[] colliders=new Collider[10];
     IInteractive iobj;//当前可交互物体
 
     private void Start()

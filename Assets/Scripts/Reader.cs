@@ -41,13 +41,17 @@ public class Reader : MonoBehaviour
     public Vector2 InputDirV2 => inputAction.Gameplay.Move.ReadValue<Vector2>();
     public Vector3 InputDirV3 => new Vector3(InputDirV2.x,0,InputDirV2.y);
     public bool Aim => inputAction.Gameplay.Aim.IsPressed();
-    public bool Shoot => inputAction.Gameplay.Shoot.IsPressed();
+    public bool Shoot =>inputAction.Gameplay.Shoot.WasPressedThisFrame();
+    public bool HoldShoot { get; private set; }
     public bool Interactive => inputAction.Gameplay.Interactive.WasReleasedThisFrame();
     public Vector2 InputMousePos => inputAction.Gameplay.AimPosition.ReadValue<Vector2>();
     
     private void Start()
     {
         mainCamera = FindObjectOfType<Camera>();
+        
+        inputAction.Gameplay.Shoot.performed += c => { HoldShoot = true; };
+        inputAction.Gameplay.Shoot.canceled += c => { HoldShoot = false; };
     }
 
 }
