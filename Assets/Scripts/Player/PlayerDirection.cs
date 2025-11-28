@@ -36,29 +36,34 @@ public class PlayerDirection : MonoBehaviour
     private bool hasDirInput = false;
     private void Update()
     {
-        hasDirInput = false;
-		if(reader.InputDirV3!=Vector3.zero && !reader.Aim)
-        {
-            hasDirInput = true;
-            curDir = reader.InputDirV3;
-        }
-        if (reader.Aim)
-        {
-            //Debug.Log(MouseAimDir);
+        //按住瞄准时跟随鼠标方向
+  //       hasDirInput = false;
+		// if(reader.InputDirV3!=Vector3.zero && !reader.Aim)
+  //       {
+  //           hasDirInput = true;
+  //           curDir = reader.InputDirV3;
+  //       }
+  //       if (reader.Aim)
+  //       {
+  //           //Debug.Log(MouseAimDir);
+  //           transform.rotation = Quaternion.LookRotation(MouseAimDir);
+  //           curDir = MouseAimDir;
+  //       }
+  //       else
+  //       {
+  //           if (hasDirInput)
+  //           {
+  //               transform.rotation = Quaternion.LookRotation(reader.InputDirV3);
+  //           }
+  //           else if(curDir != Vector3.zero)
+  //           {
+  //               transform.rotation = Quaternion.LookRotation(curDir);
+  //           }
+  //           
+  //       }
+  
+        if(MouseAimDir!=Vector3.zero)
             transform.rotation = Quaternion.LookRotation(MouseAimDir);
-            curDir = MouseAimDir;
-        }
-        else
-        {
-            if (hasDirInput)
-            {
-                transform.rotation = Quaternion.LookRotation(reader.InputDirV3);
-            }
-            else if(curDir != Vector3.zero)
-            {
-                transform.rotation = Quaternion.LookRotation(curDir);
-            }
-            
-        }
+
     }
 }

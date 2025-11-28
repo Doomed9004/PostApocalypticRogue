@@ -21,19 +21,16 @@ public class WeaponController : MonoBehaviour
     {
         if(reader.HoldShoot)
         {
-            Debug.Log("1");
             iweapon.ChargedAttack();
             return;
         }
         else
         {
-            Debug.Log("2");
             iweapon.AttackFinish();
         }
         
         if(reader.Shoot)
         {
-            Debug.Log("3");
             iweapon.Attack();
         }
     }

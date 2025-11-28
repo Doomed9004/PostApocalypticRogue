@@ -23,10 +23,12 @@ public class LaserBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Player" )
+        Debug.Log("Triggered");
+        IInjury injury = other.gameObject.GetComponent<IInjury>();
+        if (injury != null)
         {
+            injury.Inject(damage);
             Destroy(gameObject);
-            return;
         }
     }
 }

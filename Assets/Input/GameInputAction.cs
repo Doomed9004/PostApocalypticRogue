@@ -145,6 +145,15 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseProps"",
+                    ""type"": ""Button"",
+                    ""id"": ""81a61a49-fd67-4354-84af-d0a99a5e57b0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -257,6 +266,28 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""ChangeWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d80975d-1363-467e-9294-d2e19673f0d5"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";K&M"",
+                    ""action"": ""UseProps"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""afcc20f3-d31c-4c84-89d4-95f56f4d345d"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";K&M"",
+                    ""action"": ""UseProps"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -327,6 +358,7 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
         m_Gameplay_Interactive = m_Gameplay.FindAction("Interactive", throwIfNotFound: true);
         m_Gameplay_AimPosition = m_Gameplay.FindAction("AimPosition", throwIfNotFound: true);
         m_Gameplay_ChangeWeapon = m_Gameplay.FindAction("ChangeWeapon", throwIfNotFound: true);
+        m_Gameplay_UseProps = m_Gameplay.FindAction("UseProps", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -417,6 +449,7 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Interactive;
     private readonly InputAction m_Gameplay_AimPosition;
     private readonly InputAction m_Gameplay_ChangeWeapon;
+    private readonly InputAction m_Gameplay_UseProps;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -452,6 +485,10 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/ChangeWeapon".
         /// </summary>
         public InputAction @ChangeWeapon => m_Wrapper.m_Gameplay_ChangeWeapon;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/UseProps".
+        /// </summary>
+        public InputAction @UseProps => m_Wrapper.m_Gameplay_UseProps;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -496,6 +533,9 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
             @ChangeWeapon.started += instance.OnChangeWeapon;
             @ChangeWeapon.performed += instance.OnChangeWeapon;
             @ChangeWeapon.canceled += instance.OnChangeWeapon;
+            @UseProps.started += instance.OnUseProps;
+            @UseProps.performed += instance.OnUseProps;
+            @UseProps.canceled += instance.OnUseProps;
         }
 
         /// <summary>
@@ -525,6 +565,9 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
             @ChangeWeapon.started -= instance.OnChangeWeapon;
             @ChangeWeapon.performed -= instance.OnChangeWeapon;
             @ChangeWeapon.canceled -= instance.OnChangeWeapon;
+            @UseProps.started -= instance.OnUseProps;
+            @UseProps.performed -= instance.OnUseProps;
+            @UseProps.canceled -= instance.OnUseProps;
         }
 
         /// <summary>
@@ -729,6 +772,13 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnChangeWeapon(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "UseProps" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUseProps(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
