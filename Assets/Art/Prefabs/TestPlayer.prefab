@@ -17,7 +17,8 @@ GameObject:
   - component: {fileID: 1432314829399683529}
   - component: {fileID: 6964771886112237317}
   - component: {fileID: 1207947303518656213}
-  m_Layer: 0
+  - component: {fileID: 1357107288033886448}
+  m_Layer: 7
   m_Name: TestPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -199,6 +200,23 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1357107288033886448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430603517080880842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a44d279b99a164abe5f424a055baeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpMax: 100
+  hp: 100
+  maxHp: 100
+  atk: 10
+  def: 0.1
 --- !u!1 &3673446852979061212
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,8 +228,7 @@ GameObject:
   - component: {fileID: 7770739605591393328}
   - component: {fileID: 7956717349656622405}
   - component: {fileID: 3911724254950349441}
-  - component: {fileID: 2468088521357124159}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: eye
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -283,27 +300,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2468088521357124159
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3673446852979061212}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &4898474255185623759
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -316,6 +312,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LaserGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 458423167260144827, guid: e45d199d870a81443bee27b7f5a89097,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 458423167260144827, guid: e45d199d870a81443bee27b7f5a89097,
         type: 3}
@@ -374,6 +375,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4668955803729588705, guid: e45d199d870a81443bee27b7f5a89097,
         type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668955803729588705, guid: e45d199d870a81443bee27b7f5a89097,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 1
       objectReference: {fileID: 0}
@@ -382,7 +388,18 @@ PrefabInstance:
       propertyPath: laser
       value: 
       objectReference: {fileID: 4763409245678913509}
-    m_RemovedComponents: []
+    - target: {fileID: 5682681011577841993, guid: e45d199d870a81443bee27b7f5a89097,
+        type: 3}
+      propertyPath: laserDelay
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682681011577841993, guid: e45d199d870a81443bee27b7f5a89097,
+        type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 31
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 7810308762758857962, guid: e45d199d870a81443bee27b7f5a89097, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -113,7 +113,7 @@ public class LaserGun : WeaponBase, IWeapon
             dir = hit.point - transform.position;
             if (Physics.Raycast(transform.position, dir, out laserHit, 1000, layerMask))
             {
-                laserHit.collider.GetComponent<IInjury>()?.Inject(chargedDamage);
+                laserHit.collider.GetComponent<IInjury>()?.Inject(chargedDamage,this.gameObject);
                 //Debug.Log(hit.collider.gameObject.name);
             }
             

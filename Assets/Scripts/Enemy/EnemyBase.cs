@@ -17,7 +17,7 @@ public class EnemyBase : MonoBehaviour,IInjury
     [SerializeField]float checkDelay = 0.5f;
     [SerializeField]float checkRadius = 1.5f;
     [SerializeField] private LayerMask atkMask;
-    public Transform _target;
+    private Transform _target;
 
     public event EventHandler Dead;
     
@@ -34,9 +34,11 @@ public class EnemyBase : MonoBehaviour,IInjury
         }
     }
 
+    private IInjury injuryTarget;
+
     public void Init(Transform currentTarget)
     {
-        Target = currentTarget;
+        //Target = currentTarget;
         _navMeshAgent.speed = speed;
         _navMeshAgent.stoppingDistance = stoppingDistance;
     }
@@ -54,9 +56,10 @@ public class EnemyBase : MonoBehaviour,IInjury
     }
     
 
-    public bool Inject(float dmg)
+    public bool Inject(float dmg,GameObject obj)
     {
         hp-=dmg;
+        Debug.Log($"被{obj.name}攻击");
         if(hp<=0)
         {
             Dead?.Invoke(this, null);
@@ -76,10 +79,10 @@ public class EnemyBase : MonoBehaviour,IInjury
     {
         while (true)
         {
-            if (Target != null&& Vector3.Distance(transform.position,Target.position) <= attackRadius)
+            if (injuryTarget != null&& Vector3.Distance(transform.position,Target.position) <= attackRadius)
             {
-                Debug.Log($"{GetHashCode()}攻击");
-                Target.GetComponent<IInjury>().Inject(damage);
+                Debug.Log($"{gameObject.name}攻击");
+                injuryTarget.Inject(damage,this.gameObject);
             }
             
             yield return new WaitForSeconds(atkDelay);
@@ -100,22 +103,48 @@ public class EnemyBase : MonoBehaviour,IInjury
     }
 
     //检测周围目标
-    private Collider[] colliders = new Collider[1];
+    public Collider[] colliders = new Collider[4];
     IEnumerator CheckTarget()
     {
+        
+        int i = 0;
         while (true)
         {
             yield return new WaitForSeconds(checkDelay);
             
-            if (colliders[0] == null)
+            Physics.OverlapSphereNonAlloc(transform.position, checkRadius, colliders,atkMask);
+            i++;
+            foreach (Collider col in colliders)
             {
-                Physics.OverlapSphereNonAlloc(transform.position, checkRadius, colliders,atkMask);
+                if (col == null) break;
+                Debug.Log(col.gameObject.name);
             }
-        
-            if (colliders[0] != null && Target != colliders[0].transform.parent)
+            Debug.Log(i);
+            foreach (Collider col in colliders)
             {
-                Target=colliders[0].transform.parent;
+				//Debug.Log(col.gameObject.name+"第二循环");
+                if (col == null)
+                {
+                    Target=this.transform;
+                    injuryTarget=null;
+                    break;
+                }
+                
+                if (col.TryGetComponent<IInjury>(out IInjury ij))
+                {
+                    
+                    Target = col.transform;
+                    injuryTarget = ij;
+                    break;
+                }
+                else
+				{
+                    Debug.Log("没有IInjury");
+					Target=null;
+ 					injuryTarget=null;
+				}
             }
+            Array.Clear(colliders, 0, colliders.Length);
         }
     }
     

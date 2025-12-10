@@ -789,11 +789,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 230131018759195438, guid: ac32d6130bb513e408f450e557a70b3a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 735325393306745070, guid: ac32d6130bb513e408f450e557a70b3a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -844,35 +839,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 947462519944401798, guid: ac32d6130bb513e408f450e557a70b3a,
-        type: 3}
-      propertyPath: laserDelay
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 947462519944401798, guid: ac32d6130bb513e408f450e557a70b3a,
-        type: 3}
-      propertyPath: layerMask.m_Bits
-      value: 31
-      objectReference: {fileID: 0}
     - target: {fileID: 1430603517080880842, guid: ac32d6130bb513e408f450e557a70b3a,
         type: 3}
       propertyPath: m_Name
       value: TestPlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 1430603517080880842, guid: ac32d6130bb513e408f450e557a70b3a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3673446852979061212, guid: ac32d6130bb513e408f450e557a70b3a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5018774773411712628, guid: ac32d6130bb513e408f450e557a70b3a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3094,8 +3064,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5318198213995577846, guid: 21d37fc2e903a2d45873639025a66b07,
         type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318198213995577846, guid: 21d37fc2e903a2d45873639025a66b07,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 124
+      objectReference: {fileID: 0}
+    - target: {fileID: -5190307958804631537, guid: 21d37fc2e903a2d45873639025a66b07,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -5190307958804631537, guid: 21d37fc2e903a2d45873639025a66b07,
         type: 3}
