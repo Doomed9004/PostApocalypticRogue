@@ -31,7 +31,24 @@ public class LaserGun : WeaponBase, IWeapon
                 return Vector3.zero;
             }
         }
-    } 
+    }
+
+    Vector3 ShootObjPoint
+    {
+        get
+        {
+            RaycastHit lHit;
+            Vector3 dir = hit.point - transform.position;
+            if (Physics.Raycast(transform.position, dir, out lHit, 1000, layerMask))
+            {
+                return lHit.point;
+            }
+            else
+            {
+                return hit.point;
+            }
+        }
+    }
     
     
 
@@ -87,7 +104,7 @@ public class LaserGun : WeaponBase, IWeapon
         {
             //Debug.Log("长按攻击");
             laser.SetPosition(0, transform.position);
-            laser.SetPosition(1, ShootPoint);
+            laser.SetPosition(1, ShootObjPoint);
             isChargingShooted = true;
         }
         else

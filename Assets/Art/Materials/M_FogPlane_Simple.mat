@@ -51,9 +51,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Fog_Density: 0.01
+    - _Fog_Density: 0.06
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 0.8666667, g: 0.79325366, b: 0.7358, a: 1}
+    - _Color: {r: 0.9150943, g: 0.6939073, b: 0.53092736, a: 1}
   m_BuildTextureStacks: []

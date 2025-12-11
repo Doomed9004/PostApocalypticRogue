@@ -18,7 +18,7 @@ public class Nest : MonoBehaviour
     Vector3 checkPosition;
     [SerializeField] private float generateDelay=0.5f;//生成间隔
     [SerializeField] private int threatenedCount = 10;//受到威胁时的生成量（周围存在建筑）
-    List<GameObject> threatenedEnemies = new List<GameObject>();
+    [SerializeField] List<GameObject> threatenedEnemies = new List<GameObject>();
     int curThreatenedCount;
     
     bool canGenerate;
@@ -80,21 +80,31 @@ public class Nest : MonoBehaviour
 
     IEnumerator GenerateCoroutine( float delay, GameObject enemiesPrefab,Transform target)
     {
+        WaitForSeconds  wait = new WaitForSeconds(delay);
         while (true)
         {
-            if (threatenedEnemies.Count > threatenedCount)
+            if (threatenedEnemies.Count >= threatenedCount)
             {
-                yield return new WaitForSeconds(delay);
+                yield return wait;
                 continue;
             }
             
             //生成并初始化敌人实例
             GameObject obj = Instantiate(enemiesPrefab, GeneratePosition, Quaternion.identity);
-            obj.GetComponent<EnemyBase>().Init(target);
+            EnemyBase e=obj.GetComponent<EnemyBase>();
+            e.Init(target);
+            e.Dead += EnemyDeadHandler;
             threatenedEnemies.Add(obj);
             
-            yield return new WaitForSeconds(delay); 
+            yield return wait; 
         }
+    }
+
+    void EnemyDeadHandler(object sender, EventArgs eventArgs)
+    {
+        EnemyBase e = sender as EnemyBase;
+        threatenedEnemies.Remove(e.gameObject);
+        e.Dead -= EnemyDeadHandler;
     }
 
     private void OnDrawGizmos()

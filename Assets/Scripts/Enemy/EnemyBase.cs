@@ -16,8 +16,10 @@ public class EnemyBase : MonoBehaviour,IInjury
     [SerializeField]float attackRadius = 0.4f;
     [SerializeField]float checkDelay = 0.5f;
     [SerializeField]float checkRadius = 1.5f;
-    [SerializeField] private LayerMask atkMask;
+    [SerializeField]LayerMask atkMask;
     private Transform _target;
+
+    [SerializeField]GameObject drops;//掉落物预制体
 
     public event EventHandler Dead;
     
@@ -72,11 +74,14 @@ public class EnemyBase : MonoBehaviour,IInjury
     void Dying()
     {
         //TODO:优化死亡逻辑
+        Debug.Log("enemy死亡");
+        Instantiate(drops, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
     IEnumerator Attack()
     {
+        WaitForSeconds wait = new WaitForSeconds(atkDelay);
         while (true)
         {
             if (injuryTarget != null&& Vector3.Distance(transform.position,Target.position) <= attackRadius)
@@ -85,20 +90,21 @@ public class EnemyBase : MonoBehaviour,IInjury
                 injuryTarget.Inject(damage,this.gameObject);
             }
             
-            yield return new WaitForSeconds(atkDelay);
+            yield return wait;
         }
     }
 
     IEnumerator Move()
     {
+        WaitForSeconds  wait = new WaitForSeconds(0.2f);
         while (true)
         {
             if (Target != null)
             {
                 MoveTowardsTarget(Target.transform);
             }
-            
-            yield return new WaitForSeconds(0.2f);
+
+            yield return wait;
         }
     }
 
@@ -106,20 +112,20 @@ public class EnemyBase : MonoBehaviour,IInjury
     public Collider[] colliders = new Collider[4];
     IEnumerator CheckTarget()
     {
-        
         int i = 0;
+        WaitForSeconds wait = new WaitForSeconds(atkDelay);
         while (true)
         {
-            yield return new WaitForSeconds(checkDelay);
+            yield return wait;
             
             Physics.OverlapSphereNonAlloc(transform.position, checkRadius, colliders,atkMask);
             i++;
             foreach (Collider col in colliders)
             {
                 if (col == null) break;
-                Debug.Log(col.gameObject.name);
+                //Debug.Log(col.gameObject.name);
             }
-            Debug.Log(i);
+            //Debug.Log(i);
             foreach (Collider col in colliders)
             {
 				//Debug.Log(col.gameObject.name+"第二循环");
@@ -139,7 +145,7 @@ public class EnemyBase : MonoBehaviour,IInjury
                 }
                 else
 				{
-                    Debug.Log("没有IInjury");
+                    //Debug.Log("没有IInjury");
 					Target=null;
  					injuryTarget=null;
 				}
@@ -147,7 +153,9 @@ public class EnemyBase : MonoBehaviour,IInjury
             Array.Clear(colliders, 0, colliders.Length);
         }
     }
-    
+
+
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
