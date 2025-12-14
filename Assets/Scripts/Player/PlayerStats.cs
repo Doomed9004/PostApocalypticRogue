@@ -3,16 +3,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerProperties : MonoBehaviour,IInjury,IPicker
+public class PlayerStats : MonoBehaviour,IInjury,IPicker
 {
-    [SerializeField]float hpMax=100;
     [SerializeField]float hp=100;
     [SerializeField]float maxHp=100;
     [SerializeField]float atk=10;
+    
     [SerializeField]float def=0.1f;
     [SerializeField]float maxEnergy = 100;
-    [SerializeField]float curEnergy = 100;
     [SerializeField]float energyConsumption = 1f;
+    [SerializeField]float moveSpeed=10f;
+    
+    [SerializeField]float curEnergy = 100;
+
+    #region 属性
+    public float Hp
+    {
+        get => hp;
+        set => hp = value;
+    }
+
+    public float MaxHp
+    {
+        get => maxHp;
+        set => maxHp = value;
+    }
+
+    public float Atk
+    {
+        get => atk;
+        set => atk = value;
+    }
+
+    public float Def
+    {
+        get => def;
+        set => def = value;
+    }
+
+    public float MaxEnergy
+    {
+        get => maxEnergy;
+        set => maxEnergy = value;
+    }
+
+    public float CurEnergy
+    {
+        get => curEnergy;
+        set => curEnergy = value;
+    }
+
+    public float EnergyConsumption
+    {
+        get => energyConsumption;
+        set => energyConsumption = value;
+    }
+
+    public float MoveSpeed
+    {
+        get => moveSpeed;
+        set => moveSpeed = value;
+    }
 
     public float CurrentEnergy {
         get => curEnergy;
@@ -23,6 +74,8 @@ public class PlayerProperties : MonoBehaviour,IInjury,IPicker
             curEnergy = Mathf.Clamp(curEnergy, 0, maxEnergy);
         }
     }
+    #endregion
+    
     public event Action<float> EnergyValueChange;
     public bool Inject(float dmg,GameObject obj)
     {

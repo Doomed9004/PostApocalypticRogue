@@ -6,7 +6,7 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     [SerializeField]UIView view;
-    [SerializeField]PlayerProperties data;
+    [SerializeField]PlayerStats data;
 
     private void Start()
     {

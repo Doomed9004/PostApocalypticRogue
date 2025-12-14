@@ -12,12 +12,13 @@ GameObject:
   - component: {fileID: 6480835420342792472}
   - component: {fileID: 8963356482415993425}
   - component: {fileID: 4926770065441184551}
+  - component: {fileID: 1207947303518656213}
   - component: {fileID: 2699412019306142008}
   - component: {fileID: 5689081068675053709}
   - component: {fileID: 1432314829399683529}
   - component: {fileID: 6964771886112237317}
-  - component: {fileID: 1207947303518656213}
   - component: {fileID: 1357107288033886448}
+  - component: {fileID: 2961182504662578787}
   m_Layer: 7
   m_Name: TestPlayer
   m_TagString: Player
@@ -115,6 +116,32 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!143 &1207947303518656213
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430603517080880842}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2699412019306142008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,7 +155,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cc: {fileID: 1207947303518656213}
-  moveSpeed: 10
 --- !u!114 &5689081068675053709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,32 +200,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 31
---- !u!143 &1207947303518656213
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1430603517080880842}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1357107288033886448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,18 +212,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a44d279b99a164abe5f424a055baeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpMax: 100
   hp: 100
   maxHp: 100
   atk: 10
   def: 0.1
   maxEnergy: 100
-  curEnergy: 100
   energyConsumption: 1
+  moveSpeed: 10
+  curEnergy: 100
   checkRadius: 2
   dropMask:
     serializedVersion: 2
     m_Bits: 1024
+--- !u!114 &2961182504662578787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430603517080880842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 128a23797b3c5444ca531056ec27a682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxBodySlots: 3
+  maxWeaponSlots: 2
+  showDebugInfo: 1
 --- !u!1 &3673446852979061212
 GameObject:
   m_ObjectHideFlags: 0

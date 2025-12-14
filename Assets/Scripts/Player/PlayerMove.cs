@@ -7,7 +7,8 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField]private CharacterController cc;
     private Reader reader;
-    [SerializeField]private float moveSpeed;
+    PlayerStats playerStats;
+    private float MoveSpeed => playerStats.MoveSpeed;
     
     Vector3 moveDir=>new Vector3(reader.InputDirV2.x,0,reader.InputDirV2.y);
 
@@ -15,6 +16,7 @@ public class PlayerMove : MonoBehaviour
     {
         reader = FindObjectOfType<Reader>();
         cc = GetComponent<CharacterController>();
+        playerStats = GetComponent<PlayerStats>();
     }
 
     private void Update()
@@ -26,7 +28,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (reader.InputDirV2 != Vector2.zero)
         {
-            cc.Move(moveDir * moveSpeed * Time.deltaTime);
+            cc.Move(moveDir * MoveSpeed * Time.deltaTime);
         }
     }
 }
