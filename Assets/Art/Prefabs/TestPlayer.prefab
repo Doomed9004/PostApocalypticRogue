@@ -217,6 +217,13 @@ MonoBehaviour:
   maxHp: 100
   atk: 10
   def: 0.1
+  maxEnergy: 100
+  curEnergy: 100
+  energyConsumption: 1
+  checkRadius: 2
+  dropMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &3673446852979061212
 GameObject:
   m_ObjectHideFlags: 0

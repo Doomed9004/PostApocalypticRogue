@@ -58,7 +58,7 @@ public class PlayerProperties : MonoBehaviour,IInjury,IPicker
 
             if (CurrentEnergy <= 0) continue;
             CurrentEnergy -= energyConsumption;
-            Debug.Log($"当前能量为：{curEnergy}");
+            //Debug.Log($"当前能量为：{curEnergy}");
         }
     }
 
