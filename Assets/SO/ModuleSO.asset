@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 80ba79b1fa553a74998e2785532059f6, type: 3}
   m_Name: ModuleSO
   m_EditorClassIdentifier: Assembly-CSharp::ModuleDataSO
   data:
@@ -18,7 +18,7 @@ MonoBehaviour:
     icon: {fileID: 0}
     description: "\u589E\u52A0\u80FD\u91CF\u4E0A\u9650\u5E76\u51CF\u5C11\u80FD\u8017\uFF0C\u4F46\u662F\u51CF\u6162\u79FB\u52A8\u901F\u5EA6"
     moduleType: 0
-    speedBonus: -9
+    speedBonus: -0.3
     energyEfficiencyBonus: -0.2
     energyUpperBonus: 40
     healthBonus: 0

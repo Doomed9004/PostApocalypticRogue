@@ -52,6 +52,21 @@ public class Reader : MonoBehaviour
         
         inputAction.Gameplay.Shoot.performed += c => { HoldShoot = true; };
         inputAction.Gameplay.Shoot.canceled += c => { HoldShoot = false; };
+
+        PauseManager.OnPauseChanged += PauseChangedHandler;
     }
 
+    void PauseChangedHandler(bool isPaused)
+    {
+        if (isPaused)
+        {
+            inputAction.Gameplay.Disable();
+            inputAction.UI.Enable();
+        }
+        else
+        {
+            inputAction.Gameplay.Enable();
+            inputAction.UI.Disable();
+        }
+    }
 }
