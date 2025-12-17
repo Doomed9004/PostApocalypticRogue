@@ -7,12 +7,17 @@ public class EnergyDrop : DropBase,IDrop
 {
 
     [SerializeField] private float energyDrop=0.4f;
-    public override float Value { get => energyDrop; }
-    
+    EnergyEventArgs ea { get; set; }
+
+    private void Start()
+    {
+        ea=new EnergyEventArgs(energyDrop);
+    }
+
     protected override IEnumerator PickingCoroutine(IPicker picker, Transform trans)
     {
         yield return base.PickingCoroutine(picker, trans);
-        picker.PickedUp(Value);
+        picker.PickedUp(ea);
         Debug.Log("Picked up Ani");
         yield break;
     }

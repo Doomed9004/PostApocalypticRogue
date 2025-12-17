@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ using UnityEngine;
 /// 模块管理器 - 控制模块的装备和卸下
 /// 挂载到玩家或武器上
 /// </summary>
-public class SimpleModuleManager : MonoBehaviour
+public class SimpleModuleManager : MonoBehaviour,IPicker
 {
     [Header("槽位设置")]
     public int maxBodySlots = 3;      // 机体槽位数量
@@ -24,6 +25,7 @@ public class SimpleModuleManager : MonoBehaviour
     // 属性引用（需要挂载到同一个GameObject）
     private PlayerStats playerStats;
     private WeaponBase weapon;
+    [SerializeField] private DropsPicker dropsPicker;
     
     public ModuleItem testModuleItem;
     public ModuleDataSO dataSO;
@@ -40,6 +42,8 @@ public class SimpleModuleManager : MonoBehaviour
         // 获取组件引用
         playerStats = GetComponent<PlayerStats>();
         weapon = GetComponent<WeaponBase>();
+        dropsPicker = GetComponent<DropsPicker>();
+        dropsPicker.OnModuleDropChecked += (t) => { t.PickUp(this, transform); };
         
         if (playerStats == null)
             Debug.LogWarning("未找到PlayerStats组件！");
@@ -47,6 +51,16 @@ public class SimpleModuleManager : MonoBehaviour
             Debug.LogWarning("未找到Weapon组件！");
         
         Log("模块管理器初始化完成");
+    }
+    
+    public void PickedUp(EventArgs e)
+    {
+        ModuleEventArgs args = e as ModuleEventArgs;
+        
+        //测试用：直接装备
+        EquipModule(args?.item);
+        //TODO:展示装备UI界面
+
     }
     
     /// <summary>
@@ -328,4 +342,6 @@ public class SimpleModuleManager : MonoBehaviour
     {
         Debug.LogWarning($"[ModuleManager] {message}");
     }
+
+
 }

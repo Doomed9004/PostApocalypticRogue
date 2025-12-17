@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 6964771886112237317}
   - component: {fileID: 1357107288033886448}
   - component: {fileID: 2961182504662578787}
+  - component: {fileID: 8454014885559998105}
   m_Layer: 7
   m_Name: TestPlayer
   m_TagString: Player
@@ -155,6 +156,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cc: {fileID: 1207947303518656213}
+  foot: {fileID: 0}
+  checkRadius: 0.1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &5689081068675053709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,10 +226,6 @@ MonoBehaviour:
   energyConsumption: 1
   moveSpeed: 10
   curEnergy: 100
-  checkRadius: 2
-  dropMask:
-    serializedVersion: 2
-    m_Bits: 1024
 --- !u!114 &2961182504662578787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +241,41 @@ MonoBehaviour:
   maxBodySlots: 3
   maxWeaponSlots: 2
   showDebugInfo: 1
+  dropsPicker: {fileID: 0}
+  testModuleItem:
+    data:
+      moduleID: 
+      displayName: 
+      icon: {fileID: 0}
+      description: 
+      moduleType: 0
+      speedBonus: 0
+      energyEfficiencyBonus: 0
+      energyUpperBonus: 0
+      healthBonus: 0
+      defenseBonus: 0
+      purchasePrice: 0
+      salePrice: 0
+      maxStack: 1
+    currentStack: 0
+    isEquipped: 0
+  dataSO: {fileID: 11400000, guid: 0a14930fe031f98429d8ad09f38ff820, type: 2}
+--- !u!114 &8454014885559998105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430603517080880842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7a1ea5dbbdee6b4f857a5d33ed4228e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkRadius: 2
+  dropMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &3673446852979061212
 GameObject:
   m_ObjectHideFlags: 0

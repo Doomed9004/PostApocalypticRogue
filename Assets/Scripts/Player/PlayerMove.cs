@@ -12,6 +12,17 @@ public class PlayerMove : MonoBehaviour
     
     Vector3 moveDir=>new Vector3(reader.InputDirV2.x,0,reader.InputDirV2.y);
 
+    //地面检测
+    [SerializeField] Transform foot;
+    [SerializeField] float checkRadius=0.1f;
+    [SerializeField]LayerMask groundLayer;
+    
+    bool IsGrounded => Physics.CheckSphere(foot.position,checkRadius,groundLayer);
+
+    //下落
+    [SerializeField] float gravity = -9.8f;
+    Vector3 velocity;
+    
     private void Start()
     {
         reader = FindObjectOfType<Reader>();
@@ -22,6 +33,18 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         MoveControl();
+    }
+
+    private void FixedUpdate()
+    {
+        if(IsGrounded&&velocity.y<0)
+        {
+            velocity.y = 0;
+            return;
+        }
+        
+        velocity.y += gravity * Time.deltaTime;
+        cc.Move(velocity * Time.deltaTime);
     }
 
     void MoveControl()

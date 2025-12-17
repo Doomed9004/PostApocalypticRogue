@@ -8,22 +8,22 @@ public class EnemyBase : MonoBehaviour,IInjury
 {
     //敌人 移动 攻击
     [SerializeField]NavMeshAgent _navMeshAgent;
-    [SerializeField]float speed = 1f;
-    [SerializeField]float stoppingDistance = 1f;
-    [SerializeField]float hp = 10f;
-    [SerializeField]float damage = 5f;
-    [SerializeField]float atkDelay = 1f;
-    [SerializeField]float attackRadius = 0.4f;
-    [SerializeField]float checkDelay = 0.5f;
-    [SerializeField]float checkRadius = 1.5f;
+    [SerializeField]protected float speed = 1f;
+    [SerializeField]protected float stoppingDistance = 1f;
+    [SerializeField]protected float hp = 10f;
+    [SerializeField]protected float damage = 5f;
+    [SerializeField]protected float atkDelay = 1f;
+    [SerializeField]protected float attackRadius = 0.4f;
+    [SerializeField]protected float checkDelay = 0.5f;
+    [SerializeField]protected float checkRadius = 1.5f;
     [SerializeField]LayerMask atkMask;
-    private Transform _target;
+    protected Transform _target;
 
     [SerializeField]GameObject drops;//掉落物预制体
 
     public event EventHandler Dead;
     
-    Transform Target
+    protected virtual Transform Target
     {
         get { return _target; }
         set
@@ -31,21 +31,21 @@ public class EnemyBase : MonoBehaviour,IInjury
             _target = value;
             if (value != null)
             {
-                MoveTowardsTarget(value.transform);
+                //MoveTowardsTarget(value.transform);
             }
         }
     }
 
-    private IInjury injuryTarget;
+    protected IInjury injuryTarget;
 
-    public void Init(Transform currentTarget)
+    public virtual void Init(Transform currentTarget)
     {
         //Target = currentTarget;
         _navMeshAgent.speed = speed;
         _navMeshAgent.stoppingDistance = stoppingDistance;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         StartCoroutine(Move());
         StartCoroutine(Attack());
@@ -58,7 +58,7 @@ public class EnemyBase : MonoBehaviour,IInjury
     }
     
 
-    public bool Inject(float dmg,GameObject obj)
+    public virtual bool Inject(float dmg,GameObject obj)
     {
         hp-=dmg;
         Debug.Log($"被{obj.name}攻击");
@@ -71,7 +71,7 @@ public class EnemyBase : MonoBehaviour,IInjury
         return true;
     }
 
-    void Dying()
+    protected virtual void Dying()
     {
         //TODO:优化死亡逻辑
         Debug.Log("enemy死亡");
@@ -79,7 +79,7 @@ public class EnemyBase : MonoBehaviour,IInjury
         Destroy(gameObject);
     }
 
-    IEnumerator Attack()
+    protected virtual IEnumerator Attack()
     {
         WaitForSeconds wait = new WaitForSeconds(atkDelay);
         while (true)
@@ -94,7 +94,7 @@ public class EnemyBase : MonoBehaviour,IInjury
         }
     }
 
-    IEnumerator Move()
+    protected virtual IEnumerator Move()
     {
         WaitForSeconds  wait = new WaitForSeconds(0.2f);
         while (true)
@@ -110,7 +110,7 @@ public class EnemyBase : MonoBehaviour,IInjury
 
     //检测周围目标
     public Collider[] colliders = new Collider[4];
-    IEnumerator CheckTarget()
+    protected virtual IEnumerator CheckTarget()
     {
         int i = 0;
         WaitForSeconds wait = new WaitForSeconds(atkDelay);

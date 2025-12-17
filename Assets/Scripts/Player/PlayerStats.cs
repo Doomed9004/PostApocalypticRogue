@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour,IInjury,IPicker
@@ -16,6 +17,7 @@ public class PlayerStats : MonoBehaviour,IInjury,IPicker
     
     [SerializeField]float curEnergy = 100;
 
+    DropsPicker dropsPicker;
     #region 属性
     public float Hp
     {
@@ -95,7 +97,8 @@ public class PlayerStats : MonoBehaviour,IInjury,IPicker
     private void Start()
     {
         StartCoroutine(ConsumeEnergy());
-        StartCoroutine(CheckDrops());
+        dropsPicker = GetComponent<DropsPicker>();
+        dropsPicker.OnEnergyDropChecked += (t) => { t.PickUp(this, transform); };
     }
 
     /// <summary>
@@ -115,44 +118,12 @@ public class PlayerStats : MonoBehaviour,IInjury,IPicker
         }
     }
 
-    Collider[] drops=new Collider[100];
-    [SerializeField] private float checkRadius = 2f;
-    [SerializeField]LayerMask dropMask;
-    IEnumerator CheckDrops()
+    public void PickedUp(EventArgs e)
     {
-        WaitForSeconds waitSeconds = new WaitForSeconds(0.16f);
-        while (true)
-        {
-            yield return waitSeconds;
-            
-            Physics.OverlapSphereNonAlloc(transform.position, checkRadius, drops,dropMask);
-            
-            foreach (Collider col in drops)
-            {
-                if (col == null) break;
-                //Debug.Log(col.gameObject.name);
-            }
-            //Debug.Log(i);
-            foreach (Collider col in drops)
-            {
-                //Debug.Log(col.gameObject.name+"第二循环");
-                if (col == null)
-                {
-                    break;
-                }
-                
-                if (col.TryGetComponent<IDrop>(out IDrop id))
-                {
-                    id.PickUp(this,transform);
-                }
-            }
-            Array.Clear(drops, 0, drops.Length);
-            //Debug.Log($"当前能量为：{curEnergy}");
-        }
-    }
-
-    public void PickedUp(float value)
-    {
-        CurrentEnergy+=value;
+        EnergyEventArgs args = e as EnergyEventArgs;
+        float temp = CurrentEnergy;
+        temp+=args.energy;
+        temp = Mathf.Clamp(temp, 0, MaxEnergy);
+        CurrentEnergy = temp;
     }
 }
