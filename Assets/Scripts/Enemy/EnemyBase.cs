@@ -25,31 +25,29 @@ public class EnemyBase : MonoBehaviour,IInjury
     
     protected virtual Transform Target
     {
-        get { return _target; }
-        set
-        {
-            _target = value;
-            if (value != null)
-            {
-                //MoveTowardsTarget(value.transform);
-            }
-        }
+        get => _target;
+        set => _target = value;
     }
 
     protected IInjury injuryTarget;
 
-    public virtual void Init(Transform currentTarget)
+    public virtual void Init(Transform target)
     {
-        //Target = currentTarget;
+        Target = target;
         _navMeshAgent.speed = speed;
         _navMeshAgent.stoppingDistance = stoppingDistance;
+    }
+
+    private void OnEnable()
+    {
+        _navMeshAgent.Warp(transform.position);
     }
 
     protected virtual void Start()
     {
         StartCoroutine(Move());
         StartCoroutine(Attack());
-        StartCoroutine(CheckTarget());
+        //StartCoroutine(CheckTarget());
     }
     
     protected virtual void MoveTowardsTarget(Transform target)
@@ -109,55 +107,57 @@ public class EnemyBase : MonoBehaviour,IInjury
     }
 
     //检测周围目标
-    public Collider[] colliders = new Collider[4];
-    protected virtual IEnumerator CheckTarget()
-    {
-        int i = 0;
-        WaitForSeconds wait = new WaitForSeconds(atkDelay);
-        while (true)
-        {
-            yield return wait;
-            
-            Physics.OverlapSphereNonAlloc(transform.position, checkRadius, colliders,atkMask);
-            i++;
-            foreach (Collider col in colliders)
-            {
-                if (col == null) break;
-                //Debug.Log(col.gameObject.name);
-            }
-            //Debug.Log(i);
-            foreach (Collider col in colliders)
-            {
-				//Debug.Log(col.gameObject.name+"第二循环");
-                if (col == null)
-                {
-                    Target=this.transform;
-                    injuryTarget=null;
-                    break;
-                }
-                
-                if (col.TryGetComponent<IInjury>(out IInjury ij))
-                {
-                    
-                    Target = col.transform;
-                    injuryTarget = ij;
-                    break;
-                }
-                else
-				{
-                    //Debug.Log("没有IInjury");
-					Target=null;
- 					injuryTarget=null;
-				}
-            }
-            Array.Clear(colliders, 0, colliders.Length);
-        }
-    }
+    // public Collider[] colliders = new Collider[4];
+    // protected virtual IEnumerator CheckTarget()
+    // {
+    //     int i = 0;
+    //     WaitForSeconds wait = new WaitForSeconds(atkDelay);
+    //     while (true)
+    //     {
+    //         yield return wait;
+    //         
+    //         Physics.OverlapSphereNonAlloc(transform.position, checkRadius, colliders,atkMask);
+    //         i++;
+    //         foreach (Collider col in colliders)
+    //         {
+    //             if (col == null) break;
+    //             //Debug.Log(col.gameObject.name);
+    //         }
+    //         //Debug.Log(i);
+    //         foreach (Collider col in colliders)
+    //         {
+				// //Debug.Log(col.gameObject.name+"第二循环");
+    //             if (col == null)
+    //             {
+    //                 Target=this.transform;
+    //                 injuryTarget=null;
+    //                 break;
+    //             }
+    //             
+    //             if (col.TryGetComponent<IInjury>(out IInjury ij))
+    //             {
+    //                 
+    //                 Target = col.transform;
+    //                 injuryTarget = ij;
+    //                 break;
+    //             }
+    //             else
+				// {
+    //                 //Debug.Log("没有IInjury");
+				// 	Target=null;
+ 			// 		injuryTarget=null;
+				// }
+    //         }
+    //         Array.Clear(colliders, 0, colliders.Length);
+    //     }
+    // }
 
 
-
+    [Header("显示调试信息")]
+    public bool debug=false;
     private void OnDrawGizmos()
     {
+        if (!debug)return;
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
         Gizmos.color = Color.yellow;

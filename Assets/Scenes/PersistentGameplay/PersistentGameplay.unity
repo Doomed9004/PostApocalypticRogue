@@ -278,17 +278,17 @@ PrefabInstance:
     - target: {fileID: 735325393306745070, guid: ac32d6130bb513e408f450e557a70b3a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 143.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 735325393306745070, guid: ac32d6130bb513e408f450e557a70b3a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.98
       objectReference: {fileID: 0}
     - target: {fileID: 735325393306745070, guid: ac32d6130bb513e408f450e557a70b3a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 460.9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 735325393306745070, guid: ac32d6130bb513e408f450e557a70b3a,
         type: 3}
@@ -704,6 +704,105 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energySlider: {fileID: 1262066560}
+--- !u!1 &1127420820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1127420822}
+  - component: {fileID: 1127420821}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1127420821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127420820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eb6c8fa915d76d418962a3cd66295d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waves:
+  - waveName: test
+    configs:
+    - name: normal
+      count: 2
+      spawnedCount: 0
+      weight: 20
+      prefab: {fileID: 3276049769785790420, guid: 64b85d87d98a92240b36228965c074a5,
+        type: 3}
+      defaultPoolSize: 50
+      maxPoolSize: 1000
+    - name: robot
+      count: 1
+      spawnedCount: 0
+      weight: 1
+      prefab: {fileID: 3276049769785790420, guid: 5dfe61ac1f95a8145a7ccfffe03700d2,
+        type: 3}
+      defaultPoolSize: 10
+      maxPoolSize: 20
+    waveQuota: 3
+    spawnInterval: 0.1
+    spawnedCount: 0
+    totalWeight: 21
+  - waveName: test2
+    configs:
+    - name: normal
+      count: 2
+      spawnedCount: 0
+      weight: 20
+      prefab: {fileID: 3276049769785790420, guid: 64b85d87d98a92240b36228965c074a5,
+        type: 3}
+      defaultPoolSize: 50
+      maxPoolSize: 1000
+    - name: robot
+      count: 2
+      spawnedCount: 0
+      weight: 1
+      prefab: {fileID: 3276049769785790420, guid: 5dfe61ac1f95a8145a7ccfffe03700d2,
+        type: 3}
+      defaultPoolSize: 10
+      maxPoolSize: 2
+    waveQuota: 4
+    spawnInterval: 0.1
+    spawnedCount: 0
+    totalWeight: 21
+  currentWaveCount: 0
+  player: {fileID: 1322895614}
+  spawnORadius: 23.6
+  spawnIRadius: 21.2
+  maxIterations: 5
+  rayHeight: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 264
+  poolTrans: {fileID: 1127420822}
+--- !u!4 &1127420822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127420820}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1206891910
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,17 +1185,17 @@ PrefabInstance:
     - target: {fileID: 6035588082974279537, guid: 940e7ef2f494a964cb01b2331480ff3b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 143.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6035588082974279537, guid: 940e7ef2f494a964cb01b2331480ff3b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11
+      value: 10.98
       objectReference: {fileID: 0}
     - target: {fileID: 6035588082974279537, guid: 940e7ef2f494a964cb01b2331480ff3b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 450.9
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 6035588082974279537, guid: 940e7ef2f494a964cb01b2331480ff3b,
         type: 3}
@@ -1263,17 +1362,17 @@ PrefabInstance:
     - target: {fileID: 8977875314458702581, guid: ea64df3a24ea39040ba53330a61d0a71,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 143.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8977875314458702581, guid: ea64df3a24ea39040ba53330a61d0a71,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11
+      value: 10.98
       objectReference: {fileID: 0}
     - target: {fileID: 8977875314458702581, guid: ea64df3a24ea39040ba53330a61d0a71,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 450.9
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 8977875314458702581, guid: ea64df3a24ea39040ba53330a61d0a71,
         type: 3}
@@ -1423,3 +1522,4 @@ SceneRoots:
   - {fileID: 140996949}
   - {fileID: 1277269823}
   - {fileID: 1390528675}
+  - {fileID: 1127420822}
