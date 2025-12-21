@@ -48,7 +48,7 @@ MonoBehaviour:
     energyEfficiencyBonus: 0.3
     energyUpperBonus: 40
     healthBonus: 0
-    defenseBonus: 5
+    defenseBonus: 0.1
     purchasePrice: 2
     salePrice: 1
     maxStack: 1
@@ -57,11 +57,11 @@ MonoBehaviour:
     icon: {fileID: 0}
     description: "\u5927\u5E45\u5EA6\u589E\u5927\u9632\u5FA1\u529B\uFF0C\u540C\u65F6\u5927\u5E45\u5EA6\u51CF\u6162\u79FB\u52A8\u901F\u5EA6"
     moduleType: 0
-    speedBonus: -0.5
+    speedBonus: -3
     energyEfficiencyBonus: 0
     energyUpperBonus: 0
     healthBonus: 0
-    defenseBonus: 8
+    defenseBonus: 0.2
     purchasePrice: 3
     salePrice: 1
     maxStack: 1
@@ -71,10 +71,10 @@ MonoBehaviour:
     description: "\u51CF\u6162\u80FD\u91CF\u7684\u6D88\u8017\u5E76\u63D0\u5347\u80FD\u529B\u4E0A\u9650\uFF0C\u4F46\u524A\u5F31\u81EA\u8EAB\u7684\u9632\u5FA1\u529B"
     moduleType: 0
     speedBonus: 0
-    energyEfficiencyBonus: -0.3
+    energyEfficiencyBonus: -0.5
     energyUpperBonus: 70
     healthBonus: 0
-    defenseBonus: -5
+    defenseBonus: -0.2
     purchasePrice: 2
     salePrice: 1
     maxStack: 1

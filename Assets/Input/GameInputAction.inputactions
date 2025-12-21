@@ -25,12 +25,21 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot",
+                    "name": "LShoot",
                     "type": "Button",
                     "id": "47134e76-7490-47f4-bec5-e7899e56749e",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold(duration=3)",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RShoot",
+                    "type": "Button",
+                    "id": "7a51426f-38f2-4168-8f1a-61ecbe24c808",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -144,7 +153,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";K&M",
-                    "action": "Shoot",
+                    "action": "LShoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "95073a50-8ea8-4d24-a134-22c05244c203",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";K&M",
+                    "action": "RShoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

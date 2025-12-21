@@ -19,8 +19,8 @@ public class ModuleData
     public float energyUpperBonus;    // 能量上限加成
     public float healthBonus;         // 生命加成
     public float defenseBonus;        // 防御加成
-    public float purchasePrice;       // 购买价格
-    public float salePrice;           // 出售价格
+    public int purchasePrice;       // 购买价格
+    public int salePrice;           // 出售价格
     
     [Header("其他设置")]
     public int maxStack = 1;          // 最大堆叠数

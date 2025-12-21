@@ -111,12 +111,21 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Shoot"",
+                    ""name"": ""LShoot"",
                     ""type"": ""Button"",
                     ""id"": ""47134e76-7490-47f4-bec5-e7899e56749e"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=3)"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RShoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""7a51426f-38f2-4168-8f1a-61ecbe24c808"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -230,7 +239,18 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";K&M"",
-                    ""action"": ""Shoot"",
+                    ""action"": ""LShoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""95073a50-8ea8-4d24-a134-22c05244c203"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";K&M"",
+                    ""action"": ""RShoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -354,7 +374,8 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Aim = m_Gameplay.FindAction("Aim", throwIfNotFound: true);
-        m_Gameplay_Shoot = m_Gameplay.FindAction("Shoot", throwIfNotFound: true);
+        m_Gameplay_LShoot = m_Gameplay.FindAction("LShoot", throwIfNotFound: true);
+        m_Gameplay_RShoot = m_Gameplay.FindAction("RShoot", throwIfNotFound: true);
         m_Gameplay_Interactive = m_Gameplay.FindAction("Interactive", throwIfNotFound: true);
         m_Gameplay_AimPosition = m_Gameplay.FindAction("AimPosition", throwIfNotFound: true);
         m_Gameplay_ChangeWeapon = m_Gameplay.FindAction("ChangeWeapon", throwIfNotFound: true);
@@ -445,7 +466,8 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
     private readonly InputAction m_Gameplay_Move;
     private readonly InputAction m_Gameplay_Aim;
-    private readonly InputAction m_Gameplay_Shoot;
+    private readonly InputAction m_Gameplay_LShoot;
+    private readonly InputAction m_Gameplay_RShoot;
     private readonly InputAction m_Gameplay_Interactive;
     private readonly InputAction m_Gameplay_AimPosition;
     private readonly InputAction m_Gameplay_ChangeWeapon;
@@ -470,9 +492,13 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Aim => m_Wrapper.m_Gameplay_Aim;
         /// <summary>
-        /// Provides access to the underlying input action "Gameplay/Shoot".
+        /// Provides access to the underlying input action "Gameplay/LShoot".
         /// </summary>
-        public InputAction @Shoot => m_Wrapper.m_Gameplay_Shoot;
+        public InputAction @LShoot => m_Wrapper.m_Gameplay_LShoot;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/RShoot".
+        /// </summary>
+        public InputAction @RShoot => m_Wrapper.m_Gameplay_RShoot;
         /// <summary>
         /// Provides access to the underlying input action "Gameplay/Interactive".
         /// </summary>
@@ -521,9 +547,12 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
-            @Shoot.started += instance.OnShoot;
-            @Shoot.performed += instance.OnShoot;
-            @Shoot.canceled += instance.OnShoot;
+            @LShoot.started += instance.OnLShoot;
+            @LShoot.performed += instance.OnLShoot;
+            @LShoot.canceled += instance.OnLShoot;
+            @RShoot.started += instance.OnRShoot;
+            @RShoot.performed += instance.OnRShoot;
+            @RShoot.canceled += instance.OnRShoot;
             @Interactive.started += instance.OnInteractive;
             @Interactive.performed += instance.OnInteractive;
             @Interactive.canceled += instance.OnInteractive;
@@ -553,9 +582,12 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
-            @Shoot.started -= instance.OnShoot;
-            @Shoot.performed -= instance.OnShoot;
-            @Shoot.canceled -= instance.OnShoot;
+            @LShoot.started -= instance.OnLShoot;
+            @LShoot.performed -= instance.OnLShoot;
+            @LShoot.canceled -= instance.OnLShoot;
+            @RShoot.started -= instance.OnRShoot;
+            @RShoot.performed -= instance.OnRShoot;
+            @RShoot.canceled -= instance.OnRShoot;
             @Interactive.started -= instance.OnInteractive;
             @Interactive.performed -= instance.OnInteractive;
             @Interactive.canceled -= instance.OnInteractive;
@@ -745,12 +777,19 @@ public partial class @GameInputAction: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAim(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Shoot" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "LShoot" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnShoot(InputAction.CallbackContext context);
+        void OnLShoot(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RShoot" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRShoot(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Interactive" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

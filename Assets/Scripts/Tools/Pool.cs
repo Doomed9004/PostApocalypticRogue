@@ -11,11 +11,11 @@ public class Pool<T>
     private T t;
     
     Func<T,T> CreateFunc;
-    Action<T> ActionOnGet;
+    Action<T,Vector3> ActionOnGet;
     Action<T> ActionOnRelease;
     Action<T> ActionOnDestroy;
 
-    public Pool(int defaultCount, int maxCount, T t, Func<T, T> createFunc, Action<T> actionOnGet, Action<T> actionOnRelease, Action<T> actionOnDestroy)
+    public Pool(int defaultCount, int maxCount, T t, Func<T, T> createFunc, Action<T,Vector3> actionOnGet, Action<T> actionOnRelease, Action<T> actionOnDestroy)
     {
         this.defaultCount = defaultCount;
         this.maxCount = maxCount;
@@ -47,17 +47,17 @@ public class Pool<T>
     }
     
     //取出对象
-    public T Get()
+    public T Get(Vector3 position)
     {
         if (stack.Count > 0)
         {
             T go = stack.Pop();
-            ActionOnGet.Invoke(go);
+            ActionOnGet.Invoke(go,position);
             return go;
         }
         //生成新的
         T newGo = CreateFunc.Invoke(t);
-        ActionOnGet.Invoke(newGo);
+        ActionOnGet.Invoke(newGo,position);
         return newGo;
     }
     

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponBase : MonoBehaviour
 {
-    protected float atkRate = 0.75f;
+    [SerializeField]protected float atkRate = 0.75f;
     
 }
 

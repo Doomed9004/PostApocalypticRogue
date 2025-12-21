@@ -8,17 +8,17 @@ public class PlayerDirection : MonoBehaviour
     private Reader reader;
 	Vector3 curDir;
     Camera mainCamera;
-    [SerializeField]LayerMask layerMask;
+    [SerializeField]LayerMask aimMask;
     public Vector3 MouseAimDir
     {
         get
         {
             Ray ray = mainCamera.ScreenPointToRay(reader.InputMousePos);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 1000,layerMask))
+            if (Physics.Raycast(ray, out hit, 1000,aimMask))
             {
-                Vector3 dir = hit.point - transform.position;
-                return Vector3.ProjectOnPlane(dir, Vector3.up).normalized;
+                Vector3 dir = (hit.point - transform.position).normalized;
+                return new  Vector3(dir.x, 0, dir.z);
             }
             else
             {

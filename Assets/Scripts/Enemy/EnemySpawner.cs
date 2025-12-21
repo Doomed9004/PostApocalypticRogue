@@ -43,7 +43,7 @@ public class EnemySpawner : MonoBehaviour
             var dir = Random.insideUnitCircle.normalized;
             var radius = Random.Range(spawnIRadius, spawnORadius);
             var v3 = new Vector3(dir.x, 0, dir.y)*radius;
-            var final = new Vector3(v3.x, rayHeight, v3.z);
+            var final = new Vector3(v3.x, rayHeight, v3.z)+player.position;
             Debug.DrawLine(player.position, final, Color.blue,1);
             return final;
         }
@@ -98,9 +98,19 @@ public class EnemySpawner : MonoBehaviour
         CalculateTotalWeight();
     }
 
+    private Coroutine spawnCoroutine;
     private void Start()
     {
-        StartCoroutine(SpawnEnemiesCoroutine());
+        spawnCoroutine = StartCoroutine(SpawnEnemiesCoroutine());
+        
+        foreach (var volume in VolumeManager.Volumes)
+        {
+            if (volume.vType == Volume.VolumeType.Safe)
+            {
+                volume.PlayerEnter+= PlayerEnterHandler;
+                volume.PlayerExit += PlayerExitHandler;
+            }
+        }
     }
 
     IEnumerator SpawnEnemiesCoroutine()
@@ -111,7 +121,8 @@ public class EnemySpawner : MonoBehaviour
             {
                 yield break;
             }
-            Debug.Log(currentWaveCount);
+
+            //Debug.Log(currentWaveCount);
             yield return new WaitForSeconds(waves[currentWaveCount].spawnInterval);
             SpawnEnemies();
         }
@@ -148,16 +159,13 @@ public class EnemySpawner : MonoBehaviour
     
     void SpawnEnemies()
     {
-        
-
-        
         if (FindSpawnPoint(out Vector3 pos))
         {
             //从对象池中获取对象并设置位置
             EnemyConfigs ec = RandomEnemyConfig();
             Pool<GameObject> pool = poolDict[ec.name];
-            GameObject go = pool.Get();
-            go.transform.position = pos;
+            GameObject go = pool.Get(pos);
+            //go.transform.position = pos;
             ec.spawnedCount++;
             waves[currentWaveCount].spawnedCount++;
         }
@@ -168,14 +176,14 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    Vector3 offset = new Vector3(0,0.5f,0);
+    Vector3 offset = new Vector3(0,2f,0);
     //在生成范围内寻找可以生成的位置
     bool FindSpawnPoint(out Vector3 pos)
     {
         //寻找生成位置
         for (int i = 0; i < maxIterations; i++)
         {
-            Vector3 v = player.position + RandomPosInConcentric;
+            Vector3 v = RandomPosInConcentric;
             if (Physics.Raycast(v, Vector3.down, out RaycastHit hit, rayHeight + 5, layerMask))
             {
                 Debug.DrawRay(v, Vector3.down * hit.distance, Color.red);
@@ -205,6 +213,16 @@ public class EnemySpawner : MonoBehaviour
         }
         return waves[currentWaveCount].configs[0];
     }
+    
+    void PlayerEnterHandler(Volume.VolumeType vType)
+    {
+        StopCoroutine(spawnCoroutine);
+    }
+
+    void PlayerExitHandler(Volume.VolumeType vType)
+    {
+        spawnCoroutine = StartCoroutine(SpawnEnemiesCoroutine());
+    }
 
     private void OnDrawGizmos()
     {
@@ -224,8 +242,9 @@ public class EnemySpawner : MonoBehaviour
         go.SetActive(false);
         return go;
     }
-    void ActionOnGet(GameObject obj)
+    void ActionOnGet(GameObject obj,Vector3 pos)
     {
+        obj.transform.position = pos;
         obj.SetActive(true);
     }
     void ActionOnRelease(GameObject obj)

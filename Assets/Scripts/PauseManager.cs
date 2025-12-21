@@ -23,7 +23,7 @@ public class PauseManager : MonoBehaviour
 
     public static event Action<bool> OnPauseChanged;
     [MenuItem("Pause Manager/Pause")]
-    static void Pause()
+    public static void Pause()
     {
         IsPaused = true;
         Time.timeScale = 0;
@@ -31,7 +31,7 @@ public class PauseManager : MonoBehaviour
     }
     
     [MenuItem("Pause Manager/Unpause")]
-    static void Unpause()
+    public static void Unpause()
     {
         IsPaused = false;
         Time.timeScale = 1;

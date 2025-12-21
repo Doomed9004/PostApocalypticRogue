@@ -9,8 +9,14 @@ public class LaserBullet : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float damage;
     [SerializeField] private float lifeTime=7;
+    [SerializeField]LayerMask targetMask;
     float timer = 0;
-    
+
+    private void Start()
+    {
+        Debug.Log("子弹生成");
+    }
+
     private void Update()
     {
         timer += Time.deltaTime;
@@ -23,12 +29,16 @@ public class LaserBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Triggered");
-        IInjury injury = other.gameObject.GetComponent<IInjury>();
-        if (injury != null)
+        Debug.Log(other.name);
+        if((1<<other.gameObject.layer)==targetMask)
         {
-            injury.Inject(damage,this.gameObject);
-            Destroy(gameObject);
+            Debug.Log("层级正确");
+            if (other.gameObject.GetComponent<IInjury>() is IInjury injury)
+            {
+                Debug.Log("injury不为空");
+                injury.Inject(damage, this.gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 }

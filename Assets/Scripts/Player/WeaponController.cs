@@ -19,7 +19,7 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if(reader.HoldShoot)
+        if(reader.HoldShoot && !reader.Shoot)
         {
             iweapon.ChargedAttack();
             return;

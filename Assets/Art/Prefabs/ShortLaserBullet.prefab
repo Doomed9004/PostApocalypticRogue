@@ -71,6 +71,9 @@ MonoBehaviour:
   speed: 50
   damage: 10
   lifeTime: 7
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!54 &5683829123350550395
 Rigidbody:
   m_ObjectHideFlags: 0

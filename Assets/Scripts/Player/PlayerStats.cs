@@ -94,11 +94,21 @@ public class PlayerStats : MonoBehaviour,IInjury,IPicker
         // return hp <= 0;
     }
 
+    Coroutine consumeEnergyCoroutine;
     private void Start()
     {
-        StartCoroutine(ConsumeEnergy());
+        consumeEnergyCoroutine = StartCoroutine(ConsumeEnergy());
         dropsPicker = GetComponent<DropsPicker>();
         dropsPicker.OnEnergyDropChecked += (t) => { t.PickUp(this, transform); };
+        
+        foreach (var volume in VolumeManager.Volumes)
+        {
+            if (volume.vType == Volume.VolumeType.Safe)
+            {
+                volume.PlayerEnter+= PlayerEnterHandler;
+                volume.PlayerExit += PlayerExitHandler;
+            }
+        }
     }
 
     /// <summary>
@@ -125,5 +135,15 @@ public class PlayerStats : MonoBehaviour,IInjury,IPicker
         temp+=args.energy;
         temp = Mathf.Clamp(temp, 0, MaxEnergy);
         CurrentEnergy = temp;
+    }
+
+    void PlayerEnterHandler(Volume.VolumeType vType)
+    {
+        StopCoroutine(consumeEnergyCoroutine);
+    }
+
+    void PlayerExitHandler(Volume.VolumeType vType)
+    {
+        consumeEnergyCoroutine = StartCoroutine(ConsumeEnergy());
     }
 }

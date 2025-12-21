@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4020172983386653486}
   - component: {fileID: 8207280910481644384}
   - component: {fileID: 7675012249776839607}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EnemyBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.5, y: 0.5, z: 14.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.7534554, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _navMeshAgent: {fileID: 7675012249776839607}
-  speed: 1
+  speed: 3
   stoppingDistance: 2
   hp: 10
   damage: 5
@@ -158,5 +158,5 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 1
   m_BaseOffset: 0.5
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 3
+  m_WalkableMask: 1
+  m_ObstacleAvoidanceType: 1

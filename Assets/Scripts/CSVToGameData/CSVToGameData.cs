@@ -31,8 +31,8 @@ public class CSVToGameData : MonoBehaviour
                 energyEfficiencyBonus = float.Parse(fields[4].Trim()),
                 energyUpperBonus = float.Parse(fields[5].Trim()),
                 defenseBonus = float.Parse(fields[6].Trim()),
-                purchasePrice = float.Parse(fields[7].Trim()),
-                salePrice = float.Parse(fields[8].Trim())
+                purchasePrice = int.Parse(fields[7].Trim()),
+                salePrice = int.Parse(fields[8].Trim())
             };
             dataSO.data.Add(data);
         }  

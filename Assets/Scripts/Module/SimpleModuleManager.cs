@@ -22,6 +22,11 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
     // 模块背包（未装备的模块）
     private List<ModuleItem> moduleInventory = new List<ModuleItem>();
     
+    public event Action<ModuleItem> EquippedBodyModule;
+    public event Action<ModuleItem> EquippedWeaponModule;
+    public event Action<ModuleItem> PickedUpBodyModule;
+    public event Action<ModuleItem> PickUpWeaponModule;
+    
     // 属性引用（需要挂载到同一个GameObject）
     private PlayerStats playerStats;
     private WeaponBase weapon;
@@ -37,6 +42,39 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
         bool b = EquipModule(testModuleItem);
         Debug.Log(b);
     }
+
+    private ModuleItem curPickedupModule;
+    public void PickedUp(EventArgs e)
+    {
+        ModuleEventArgs args = e as ModuleEventArgs;
+        
+        //测试用：直接装备
+        //EquipModule(args?.item);
+        //TODO:展示装备UI界面
+        curPickedupModule = args.item;
+        switch (curPickedupModule.data.moduleType)
+        {
+            case ModuleData.ModuleType.Body:PickedUpBodyModule?.Invoke(curPickedupModule);
+                break;
+            case ModuleData.ModuleType.Weapon:PickUpWeaponModule?.Invoke(curPickedupModule);
+                break;
+        }
+    }
+
+    public void ChangeEquipModule(ModuleItem module)
+    {
+        if (module != null )
+        {
+            UnequipModule(module);
+            EquipModule(curPickedupModule);
+        }
+        else
+        {
+            EquipModule(curPickedupModule);
+        }
+    }
+    
+    
     void Start()
     {
         // 获取组件引用
@@ -53,15 +91,6 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
         Log("模块管理器初始化完成");
     }
     
-    public void PickedUp(EventArgs e)
-    {
-        ModuleEventArgs args = e as ModuleEventArgs;
-        
-        //测试用：直接装备
-        EquipModule(args?.item);
-        //TODO:展示装备UI界面
-
-    }
     
     /// <summary>
     /// 装备模块
@@ -107,6 +136,9 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
         // 从背包移除
         moduleInventory.Remove(module);
         
+        //触发装备事件
+        EquippedBodyModule?.Invoke(module);
+        
         // 应用效果到玩家
         ApplyBodyModuleEffects(module);
         
@@ -128,6 +160,7 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
         equippedWeaponModules.Add(module);
         module.isEquipped = true;
         moduleInventory.Remove(module);
+        
         
         //ApplyWeaponModuleEffects(module);
         
@@ -171,6 +204,23 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
         
         return removed;
     }
+    public bool UnequipModule(int index)
+    {
+        if (equippedBodyModules.Count <=index)
+        {
+            LogWarning("尝试卸下未装备的模块");
+            return false;
+        }
+        
+        bool removed = false;
+        
+        // 从对应列表移除
+        ModuleItem m = equippedBodyModules[index];
+        equippedBodyModules.Remove(m);
+        RemoveBodyModuleEffects(m);
+        
+        return removed;
+    }
     
     /// <summary>
     /// 应用机体模块效果
@@ -181,11 +231,11 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
         
         // 简单直接地修改属性
         ModuleData data=module.GetData();
-        Debug.Log(data.speedBonus);
         playerStats.MoveSpeed += data.speedBonus;
         playerStats.EnergyConsumption += data.energyEfficiencyBonus;
         playerStats.MaxEnergy += data.energyUpperBonus;
         playerStats.Def += data.defenseBonus;
+
         
         Log($"应用机体模块效果: +{module.GetTotalHealthBonus()}生命, +{module.GetTotalSpeedBonus()}速度");
     }
@@ -197,9 +247,13 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
     {
         if (playerStats == null) return;
         
-        //playerStats.MaxHp -= module.GetTotalHealthBonus();
-        //playerStats.MoveSpeed -= module.GetTotalSpeedBonus();
-        playerStats.Def -= module.data.defenseBonus * module.currentStack;
+        // 简单直接地修改属性
+        ModuleData data=module.GetData();
+        playerStats.MoveSpeed -= data.speedBonus;
+        playerStats.EnergyConsumption -= data.energyEfficiencyBonus;
+        playerStats.MaxEnergy -= data.energyUpperBonus;
+        playerStats.Def -= data.defenseBonus;
+
     }
     
     /// <summary>
@@ -218,13 +272,13 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
     /// <summary>
     /// 移除武器模块效果
     /// </summary>
-    // private void RemoveWeaponModuleEffects(ModuleItem module)
-    // {
-    //     if (weapon == null) return;
-    //     
-    //     weapon.damage -= module.GetTotalDamageBonus();
-    //     weapon.fireRate -= module.data.fireRateBonus * module.currentStack;
-    // }
+    private void RemoveWeaponModuleEffects(ModuleItem module)
+    {
+        if (weapon == null) return;
+        
+        //weapon.damage -= module.GetTotalDamageBonus();
+        //weapon.fireRate -= module.data.fireRateBonus * module.currentStack;
+    }
     
     /// <summary>
     /// 添加模块到背包
@@ -252,17 +306,17 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
     /// <summary>
     /// 计算总加成
     /// </summary>
-    public (float totalHealth, float totalDamage, float totalSpeed) CalculateTotalBonuses()
+    public ModuleData CalculateTotalBonuses()
     {
-        float health = 0;
-        float damage = 0;
-        float speed = 0;
+        ModuleData md = new ModuleData();
         
         // 计算机体模块加成
         foreach (var module in equippedBodyModules)
         {
-            health += module.GetTotalHealthBonus();
-            speed += module.GetTotalSpeedBonus();
+            md.speedBonus += module.data.speedBonus;
+            md.energyEfficiencyBonus += module.data.energyEfficiencyBonus;
+            md.energyUpperBonus += module.data.energyUpperBonus;
+            md.defenseBonus += module.data.defenseBonus;
         }
         
         // 计算武器模块加成
@@ -271,7 +325,7 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
             //damage += module.GetTotalDamageBonus();
         }
         
-        return (health, damage, speed);
+        return md;
     }
     
     /// <summary>
@@ -283,6 +337,16 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
         allModules.AddRange(equippedBodyModules);
         allModules.AddRange(equippedWeaponModules);
         return allModules;
+    }
+
+    public List<ModuleItem> GetBodyEquippedModules()
+    {
+        return equippedBodyModules;
+    }
+
+    public List<ModuleItem> GetWeaponEquippedModules()
+    {
+        return equippedWeaponModules;
     }
     
     /// <summary>
@@ -316,15 +380,15 @@ public class SimpleModuleManager : MonoBehaviour,IPicker
     {
         if (!showDebugInfo) return;
         
-        GUILayout.BeginArea(new Rect(10, 10, 300, 500));
+        GUILayout.BeginArea(new Rect(10, 10, 500, 500));
         GUILayout.Label("=== 模块系统调试 ===");
         
         GUILayout.Label($"机体槽位: {equippedBodyModules.Count}/{maxBodySlots}");
         GUILayout.Label($"武器槽位: {equippedWeaponModules.Count}/{maxWeaponSlots}");
-        GUILayout.Label($"背包模块: {moduleInventory.Count}");
+        //GUILayout.Label($"背包模块: {moduleInventory.Count}");
         
         var bonuses = CalculateTotalBonuses();
-        GUILayout.Label($"总加成: 生命+{bonuses.totalHealth}, 伤害+{bonuses.totalDamage}, 速度+{bonuses.totalSpeed}");
+        GUILayout.Label($"总加成: 速度{bonuses.speedBonus}, 能量效率{bonuses.energyEfficiencyBonus}, 能量上限{bonuses.energyUpperBonus},防御力{bonuses.defenseBonus}");
         
         GUILayout.EndArea();
     }

@@ -7,14 +7,16 @@ public class LaserGun : WeaponBase, IWeapon
 {
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] LineRenderer laser;
-    [SerializeField] private float laserDelay;
+    [SerializeField] private float laserDelay=0.35f;
     [SerializeField] private float chargedDamage = 10f;
     [SerializeField] private float holdTime = 3f;
     private Reader reader;
     Camera mainCamera;
-    [SerializeField]LayerMask layerMask;
+    [SerializeField]LayerMask enemyLayer;
     RaycastHit hit;
+    bool Charging=false;
     bool isChargingShooted = false;
+    bool canShoot=false;
     
     Vector3 ShootPoint
     {
@@ -22,7 +24,7 @@ public class LaserGun : WeaponBase, IWeapon
         {
             Ray ray = mainCamera.ScreenPointToRay(reader.InputMousePos);
             
-            if (Physics.Raycast(ray, out hit, 1000,layerMask))
+            if (Physics.Raycast(ray, out hit, 1000,enemyLayer))
             {
                 return hit.point;
             }
@@ -39,7 +41,7 @@ public class LaserGun : WeaponBase, IWeapon
         {
             RaycastHit lHit;
             Vector3 dir = hit.point - transform.position;
-            if (Physics.Raycast(transform.position, dir, out lHit, 1000, layerMask))
+            if (Physics.Raycast(transform.position, dir, out lHit, 1000, enemyLayer))
             {
                 return lHit.point;
             }
@@ -60,66 +62,81 @@ public class LaserGun : WeaponBase, IWeapon
     }
 
     private Coroutine chargingCoroutine;
+    private Coroutine atkCoroutine;
     private void OnEnable()
     {
         chargingCoroutine = StartCoroutine(ChargedAttackDamage());
+        atkCoroutine = StartCoroutine(AttackCoroutine());
     }
 
     private void OnDisable()
     {
         StopCoroutine(chargingCoroutine);
+        StopCoroutine(atkCoroutine);
     }
 
     float timer = 0;
     float hitTime = 0;
     public void Attack()
     {
-        if (ShootPoint!=Vector3.zero)
+        if(canShoot)
         {
-            Instantiate(bulletPrefab, transform.position, Quaternion.LookRotation(ShootPoint - transform.position));
-        }
-        else
-        {
-            Instantiate(bulletPrefab, transform.position, transform.rotation);
+            Instantiate(bulletPrefab, transform.position, Quaternion.LookRotation(transform.forward) );
+            canShoot = false;
         }
     }
 
 
+	//蓄力攻击
     public void ChargedAttack()
     {
-        //检测面朝方向 
-        // if (Physics.Raycast(transform.position, transform.forward, out hit))
+         Charging=true;
+         laser.SetPosition(0, transform.position);
+         //检测面朝方向 
+         if (Physics.Raycast(transform.position, transform.forward, out hit,enemyLayer))
+         {
+             laser.SetPosition(1, hit.point);
+             isChargingShooted = true;
+         }
+         else
+         {
+             laser.SetPosition(1, transform.position + transform.forward * 100f);
+             isChargingShooted = false;
+         }
+        
+        // if (ShootPoint!=Vector3.zero)//视觉效果需要修改
         // {
         //     //Debug.Log("长按攻击");
         //     laser.SetPosition(0, transform.position);
-        //     laser.SetPosition(1, hit.point);
+        //     laser.SetPosition(1, ShootObjPoint);
+        //     isChargingShooted = true;
         // }
         // else
         // {
         //     laser.SetPosition(0, transform.position);
         //     laser.SetPosition(1, transform.position + transform.forward * 1000f);
+        //     isChargingShooted = false;
         // }
-        
-        if (ShootPoint!=Vector3.zero)//视觉效果需要修改
+    }
+    //普通攻击
+    IEnumerator AttackCoroutine()
+    {
+        float currentTime = Time.time;
+        WaitForSeconds wait = new WaitForSeconds(atkRate);
+        while (true)
         {
-            //Debug.Log("长按攻击");
-            laser.SetPosition(0, transform.position);
-            laser.SetPosition(1, ShootObjPoint);
-            isChargingShooted = true;
-        }
-        else
-        {
-            laser.SetPosition(0, transform.position);
-            laser.SetPosition(1, transform.position + transform.forward * 1000f);
-            isChargingShooted = false;
+            canShoot = true;
+            yield return wait;
+            //Debug.Log(Time.time - currentTime);
+            currentTime = Time.time;
         }
     }
 
+    //蓄力攻击的伤害判定
     IEnumerator ChargedAttackDamage()
     {
         WaitForSeconds wait = new WaitForSeconds(laserDelay);
         RaycastHit laserHit;
-        Vector3 dir;
         while (true)
         {
             if (!isChargingShooted)//没射中就跳过
@@ -127,11 +144,22 @@ public class LaserGun : WeaponBase, IWeapon
                 yield return wait;
                 continue;
             }
-            dir = hit.point - transform.position;
-            if (Physics.Raycast(transform.position, dir, out laserHit, 1000, layerMask))
+            if (!Charging)//没射中就跳过
+            {
+                yield return wait;
+                continue;
+            }
+
+            
+            Vector3 dir = transform.forward;
+            //dir = hit.point - transform.position;
+            
+            Debug.DrawLine(transform.position, transform.position+transform.forward*100,Color.red);
+                //Debug.Log(transform.forward);
+            if (Physics.Raycast(transform.position, dir, out laserHit, 100, enemyLayer))
             {
                 laserHit.collider.GetComponent<IInjury>()?.Inject(chargedDamage,this.gameObject);
-                //Debug.Log(hit.collider.gameObject.name);
+                Debug.Log(laserHit.collider.gameObject.name);
             }
             
             yield return wait;
@@ -140,7 +168,8 @@ public class LaserGun : WeaponBase, IWeapon
 
     public void AttackFinish()
     {
-        timer = 0;
+        Charging = false;
+        isChargingShooted = false;
         laser.SetPosition(0, transform.position);
         laser.SetPosition(1, transform.position);
     }

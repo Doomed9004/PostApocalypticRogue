@@ -46,10 +46,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d17408a09f40c40bd39f129864ff45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  atkRate: 0.75
   bulletPrefab: {fileID: 600298671261907395, guid: 3fd1da670fb618947b95ff180ddc4b74,
     type: 3}
   laser: {fileID: 0}
+  laserDelay: 0.35
+  chargedDamage: 10
   holdTime: 3
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!120 &135643560123628842
 LineRenderer:
   serializedVersion: 2
